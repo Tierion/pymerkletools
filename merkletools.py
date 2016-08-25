@@ -19,20 +19,25 @@ class MerkleTools(object):
         self.levels = None
         self.is_ready = False
 
-    def add_leaf(self, values, do_hash=True):
+    def add_leaf(self, values, do_hash=False):
         self.is_ready = False
+        # check if single leaf
         if isinstance(values, tuple) or isinstance(values, list):
             for v in values:
                 if do_hash:
-                    v = self.hash_function(v)
+                    v = self.hash_function(v).digest()
+                else:
+                    v = v.decode('hex')
                 self.leaves.append(v)
         else:
             if do_hash:
-                v = self.hash_function(values)
+                v = self.hash_function(values).digest()
+            else:
+                v = values.decode('hex')
             self.leaves.append(v)
 
     def get_leaf(self, index):
-        return self.leaves[index]
+        return self.leaves[index].encode('hex')
 
     def get_leaf_count(self):
         return len(self.leaves)
@@ -49,7 +54,7 @@ class MerkleTools(object):
 
         new_level = []
         for l, r in zip(self.levels[0][0:N:2], self.levels[0][1:N:2]):
-            new_level.append(self.hash_function(l.digest() + r.digest()))
+            new_level.append(self.hash_function(l+r).digest())
         if solo_leave is not None:
             new_level.append(solo_leave)
         self.levels = [new_level, ] + self.levels  # prepend new level
@@ -64,7 +69,7 @@ class MerkleTools(object):
 
     def get_merkle_root(self):
         if self.is_ready:
-            return self.levels[0][0]
+            return self.levels[0][0].encode('hex')
         else:
             return None
 
@@ -81,35 +86,40 @@ class MerkleTools(object):
                     is_right_node = index % 2
                     sibling_index = index - 1 if is_right_node else index + 1
                     sibling_pos = "left" if is_right_node else "right"
-                    sibling_value = self.levels[x][sibling_index]
+                    sibling_value = self.levels[x][sibling_index].encode('hex')
                     proof.append({sibling_pos: sibling_value})
                     index = int(sqrt(index // 2))
             return proof
 
     def validate_proof(self, proof, target_hash, merkle_root):
+        merkle_root = merkle_root.decode('hex')
+        target_hash = target_hash.decode('hex')
         if len(proof) == 0:
             return target_hash == merkle_root
         else:
             proof_hash = target_hash
-            for x in range(len(proof)):
+            for p in proof:
                 try:
                     # the sibling is a left node
-                    proof_hash = self.hash_function(proof[x]['left'].digest()+proof_hash.digest())
+                    sibling = p['left'].decode('hex')
+                    proof_hash = self.hash_function(sibling + proof_hash).digest()
                 except:
                     # the sibling is a right node
-                    proof_hash = self.hash_function(proof_hash.digest() + proof[x]['right'].digest())
-            return proof_hash.digest() == merkle_root.digest()
+                    sibling = p['right'].decode('hex')
+                    proof_hash = self.hash_function(proof_hash + sibling).digest()
+            return proof_hash == merkle_root
 
 
 if __name__ == "__main__":
     mt = MerkleTools()
-    mt.add_leaf("tierion")
-    mt.add_leaf(["bitcoin", "blockchain"])
+    mt.add_leaf("tierion", True)
+    mt.add_leaf(["bitcoin", "blockchain"], True)
     assert mt.get_leaf_count() == 3
     assert mt.is_ready == False
     mt.make_tree()
     assert mt.is_ready == True
-    print "root:", mt.get_merkle_root().hexdigest()
-    print "proof-left:", mt.get_proof(1)[0]["left"].hexdigest()
-    print "proof-right:", mt.get_proof(1)[0]["left"].hexdigest()
+    print "root:", mt.get_merkle_root()
+    assert mt.get_merkle_root() == '765f15d171871b00034ee55e48ffdf76afbc44ed0bcff5c82f31351d333c2ed1'
+    print mt.get_proof(1)
+    print mt.get_leaf(1)
     print mt.validate_proof(mt.get_proof(1), mt.get_leaf(1), mt.get_merkle_root())
