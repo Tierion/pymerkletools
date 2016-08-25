@@ -156,3 +156,16 @@ print mt.validate_proof(mt.get_proof(1), mt.get_leaf(1), mt.get_merkle_root())  
          /       \      /       \        \
         A         B    C         D        E
 
+
+### Development
+This module uses Python's `hashlib` for hashing. Inside a `MerkleTools` object all
+hashes are stored in the default format as output by the method
+`.digest()`. This way hashes can be concatenated simply with `+`. But for
+simplicity and easy to use `MerkleTools` methods expect that both input and outputs are hex
+strings. We can convert from one type to the other using default Python string methods.
+For example:
+```python
+hash = hashlib.sha256('a').digest()  # '\xca\x97\x81\x12\xca\x1b\xbd\xca\xfa\xc21\xb3\x9a#\xdcM\xa7\x86\xef\xf8\x14|Nr\xb9\x80w\x85\xaf\xeeH\xbb'
+hex_string = hash.decode('hex')  # 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb'
+back_to_hash = hash_string.decode('hex')  # '\xca\x97\x81\x12\xca\x1b\xbd\xca\xfa\xc21\xb3\x9a#\xdcM\xa7\x86\xef\xf8\x14|Nr\xb9\x80w\x85\xaf\xeeH\xbb'
+```
