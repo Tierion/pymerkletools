@@ -1,5 +1,4 @@
 import hashlib
-from math import sqrt
 
 
 class MerkleTools(object):
@@ -69,26 +68,31 @@ class MerkleTools(object):
 
     def get_merkle_root(self):
         if self.is_ready:
-            return self.levels[0][0].encode('hex')
+            if self.levels is not None:
+                return self.levels[0][0].encode('hex')
+            else:
+                return None
         else:
             return None
 
     def get_proof(self, index):
-        if not self.is_ready or index > len(self.leaves) or index < 0:
+        if self.levels is None:
+            return None
+        elif not self.is_ready or index > len(self.leaves)-1 or index < 0:
             return None
         else:
             proof = []
             for x in range(len(self.levels) - 1, 0, -1):
                 level_len = len(self.levels[x])
-                if index == level_len - 1 and level_len % 2 == 1:  # skip if level has odd number of leaves
-                    index = int(sqrt(index // 2))
-                else:
-                    is_right_node = index % 2
-                    sibling_index = index - 1 if is_right_node else index + 1
-                    sibling_pos = "left" if is_right_node else "right"
-                    sibling_value = self.levels[x][sibling_index].encode('hex')
-                    proof.append({sibling_pos: sibling_value})
-                    index = int(sqrt(index // 2))
+                if (index == level_len - 1) and (level_len % 2 == 1):  # skip if this is an odd end node
+                    index = int(index / 2.)
+                    continue
+                is_right_node = index % 2
+                sibling_index = index - 1 if is_right_node else index + 1
+                sibling_pos = "left" if is_right_node else "right"
+                sibling_value = self.levels[x][sibling_index].encode('hex')
+                proof.append({sibling_pos: sibling_value})
+                index = int(index / 2.)
             return proof
 
     def validate_proof(self, proof, target_hash, merkle_root):
