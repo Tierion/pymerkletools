@@ -9,8 +9,8 @@ install_requires = [
 ]
 
 setup(
-    name='merkle_tools',
-    version='0.1.0',
+    name='merkletools',
+    version='1.0.0',
     description='Merkle Tools',
     classifiers=[
         "Intended Audience :: Developers",

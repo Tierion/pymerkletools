@@ -1,4 +1,5 @@
 # pymerkletools
+[![PyPI version](https://badge.fury.io/py/merkletools.svg)](https://badge.fury.io/py/merkletools)
 
 This is a Python port of [merkle-tools][https://github.com/tierion/merkle-tools].
 
