@@ -22,6 +22,12 @@ mt = MerkleTools(hash_type="md5")  # default is sha256
 # including 'SHA3-224', 'SHA3-256', 'SHA3-384', and 'SHA3-512'
 ```
 
+To use `sha3`, please install [pysha3](https://pypi.python.org/pypi/pysha3):
+```bash
+pip install pysha3
+```
+
+
 ## Methods
 
 ### add_leaf(value, do_hash)

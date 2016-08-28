@@ -1,15 +1,34 @@
 import hashlib
+try:
+    import sha3
+except:
+    from warnings import warn
+    warn("sha3 is not working!")
 
 
 class MerkleTools(object):
     def __init__(self, hash_type="sha256"):
         hash_type = hash_type.lower()
-        if hash_type not in ["sha256", "md5", ]:
-            raise Exception('`hash_type` {} nor supported'.format(hash_type))
-        elif hash_type == 'sha256':
+        if hash_type == 'sha256':
             self.hash_function = hashlib.sha256
         elif hash_type == 'md5':
             self.hash_function = hashlib.md5
+        elif hash_type == 'sha224':
+            self.hash_function = hashlib.sha224
+        elif hash_type == 'sha384':
+            self.hash_function = hashlib.sha384
+        elif hash_type == 'sha512':
+            self.hash_function = hashlib.sha512
+        elif hash_type == 'sha3_256':
+            self.hash_function = hashlib.sha3_256
+        elif hash_type == 'sha3_224':
+            self.hash_function = hashlib.sha3_224
+        elif hash_type == 'sha3_384':
+            self.hash_function = hashlib.sha3_384
+        elif hash_type == 'sha3_512':
+            self.hash_function = hashlib.sha3_512
+        else:
+            raise Exception('`hash_type` {} nor supported'.format(hash_type))
 
         self.reset_tree()
 
@@ -112,18 +131,3 @@ class MerkleTools(object):
                     sibling = p['right'].decode('hex')
                     proof_hash = self.hash_function(proof_hash + sibling).digest()
             return proof_hash == merkle_root
-
-
-if __name__ == "__main__":
-    mt = MerkleTools()
-    mt.add_leaf("tierion", True)
-    mt.add_leaf(["bitcoin", "blockchain"], True)
-    assert mt.get_leaf_count() == 3
-    assert mt.is_ready == False
-    mt.make_tree()
-    assert mt.is_ready == True
-    print "root:", mt.get_merkle_root()
-    assert mt.get_merkle_root() == '765f15d171871b00034ee55e48ffdf76afbc44ed0bcff5c82f31351d333c2ed1'
-    print mt.get_proof(1)
-    print mt.get_leaf(1)
-    print mt.validate_proof(mt.get_proof(1), mt.get_leaf(1), mt.get_merkle_root())
