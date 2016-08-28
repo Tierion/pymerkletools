@@ -177,3 +177,6 @@ hash = hashlib.sha256('a').digest()  # '\xca\x97\x81\x12\xca\x1b\xbd\xca\xfa\xc2
 hex_string = hash.decode('hex')  # 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb'
 back_to_hash = hash_string.decode('hex')  # '\xca\x97\x81\x12\xca\x1b\xbd\xca\xfa\xc21\xb3\x9a#\xdcM\xa7\x86\xef\xf8\x14|Nr\xb9\x80w\x85\xaf\xeeH\xbb'
 ```
+
+# TODO:
+- python3 support
