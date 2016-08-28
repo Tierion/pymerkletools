@@ -5,6 +5,7 @@ except:
     from warnings import warn
     warn("sha3 is not working!")
 
+
 class MerkleTools(object):
     def __init__(self, hash_type="sha256"):
         hash_type = hash_type.lower()

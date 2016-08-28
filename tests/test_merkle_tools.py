@@ -160,7 +160,6 @@ def test_validate_5_leaves():
 
     # good proof
     proof = mt.get_proof(4)
-    print proof
     is_valid = mt.validate_proof(proof, '3f79bb7b435b05321651daefd374cdc681dc06faa65e374e38337b88ca046dea', 'd71f8983ad4ee170f8129f1ebcdd7440be7798d8e1c80420bf11f1eced610dba')
     assert is_valid == True
 
