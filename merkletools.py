@@ -18,14 +18,19 @@ class MerkleTools(object):
         elif hash_type == 'sha384':
             self.hash_function = hashlib.sha384
         elif hash_type == 'sha512':
+            raise NotImplementedError
             self.hash_function = hashlib.sha512
         elif hash_type == 'sha3_256':
+            raise NotImplementedError
             self.hash_function = hashlib.sha3_256
         elif hash_type == 'sha3_224':
+            raise NotImplementedError
             self.hash_function = hashlib.sha3_224
         elif hash_type == 'sha3_384':
+            raise NotImplementedError
             self.hash_function = hashlib.sha3_384
         elif hash_type == 'sha3_512':
+            raise NotImplementedError
             self.hash_function = hashlib.sha3_512
         else:
             raise Exception('`hash_type` {} nor supported'.format(hash_type))

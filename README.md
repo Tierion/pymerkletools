@@ -18,8 +18,8 @@ import merkletools
 mt = MerkleTools(hash_type="md5")  # default is sha256 
 # valid hashTypes include all crypto hash algorithms
 # such as 'MD5', 'SHA1', 'SHA224', 'SHA256', 'SHA384', 'SHA512'
-# as well as the SHA3 family of algorithms
-# including 'SHA3-224', 'SHA3-256', 'SHA3-384', and 'SHA3-512'
+# SHA3 is not supported yet (see ToDo)
+
 ```
 
 To use `sha3`, please install [pysha3](https://pypi.python.org/pypi/pysha3):
@@ -176,3 +176,8 @@ hash = hashlib.sha256('a').digest()  # '\xca\x97\x81\x12\xca\x1b\xbd\xca\xfa\xc2
 hex_string = hash.decode('hex')  # 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb'
 back_to_hash = hash_string.decode('hex')  # '\xca\x97\x81\x12\xca\x1b\xbd\xca\xfa\xc21\xb3\x9a#\xdcM\xa7\x86\xef\xf8\x14|Nr\xb9\x80w\x85\xaf\xeeH\xbb'
 ```
+'SHA3-224', 'SHA3-256', 'SHA3-384', and 'SHA3-512' is under development
+
+### ToDo:
+`SHA3` is under development. Using `pysha3` we have differences with the
+reference implementation `js-sha3` and we are investigating alternatives.
