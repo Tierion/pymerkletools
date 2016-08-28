@@ -170,7 +170,6 @@ def test_validate_5_leaves():
 
 
 # testing other hash functions
-'''
 def test_sha224():
     mt = MerkleTools(hash_type='sha224')
     mt.add_leaf([
@@ -286,4 +285,3 @@ def test_sha3_512():
     assert mt.get_proof(0)[0]['right'] == '0b43a85d08c05252d0e23c96bc6b1bda11dfa787049ff452b3c86f4c6135e870c058c05131f199ef8619cfac937a736bbc936a667e4d96a5bf68e4056ce5fdce'
     is_valid = mt.validate_proof(mt.get_proof(0), '004a237ea808cd9375ee9db9f85625948a890c54e2c30f736f54c969074eb56f0ff3d43dafb4b40d5d974acc1c2a68c046fa4d7c2c20cab6df956514040d0b8b', '3dff3f19b67628591d294cba2c07ed20d20d83e1624af8c1dca8fcf096127b9f86435e2d6a84ca4cee526525cacd1c628bf06ee938983413afafbb4598c5862a')
     assert is_valid == True
-'''

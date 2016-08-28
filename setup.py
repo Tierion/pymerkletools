@@ -4,7 +4,9 @@ from setuptools import find_packages
 from setuptools import setup
 
 here = os.path.abspath(os.path.dirname(__file__))
-
+install_requires = [
+    "pysha3==1.0b1"
+]
 
 setup(
     name='merkle_tools',
@@ -21,6 +23,7 @@ setup(
     keywords='merkle tree, blockchain, tierion',
     license="MIT",
     packages=find_packages(),
-        include_package_data=False,
-        zip_safe=False,
+    include_package_data=False,
+    zip_safe=False,
+    install_requires=install_requires
 )
