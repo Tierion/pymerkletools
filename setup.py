@@ -8,7 +8,7 @@ here = os.path.abspath(os.path.dirname(__file__))
 
 setup(
     name='merkle_tools',
-    version='1.0.0',
+    version='0.1.0',
     description='Merkle Tools',
     classifiers=[
         "Intended Audience :: Developers",
