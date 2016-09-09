@@ -49,7 +49,7 @@ class MerkleTools(object):
                 self.leaves.append(v)
         else:
             if do_hash:
-                v = self.hash_function(values).digest()
+                v = self.hash_function(values.encode("utf-8")).digest()
             else:
                 v = values.decode('hex')
             self.leaves.append(v)
