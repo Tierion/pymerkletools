@@ -54,7 +54,6 @@ class MerkleTools(object):
                     v = self.hash_function(v).hexdigest()
                     v = bytearray.fromhex(v)
                 else:
-                    # v = v.decode('hex')
                     v = bytearray.fromhex(v)
                 self.leaves.append(v)
         else:
@@ -63,12 +62,11 @@ class MerkleTools(object):
                 v = self.hash_function(v).hexdigest()
                 v = bytearray.fromhex(v)
             else:
-                # v = values.decode('hex')
                 v = bytearray.fromhex(values)
             self.leaves.append(v)
 
     def get_leaf(self, index):
-        return self._to_hex(self.leaves[index])  # .encode('hex')
+        return self._to_hex(self.leaves[index])
 
     def get_leaf_count(self):
         return len(self.leaves)
@@ -101,7 +99,7 @@ class MerkleTools(object):
     def get_merkle_root(self):
         if self.is_ready:
             if self.levels is not None:
-                return self._to_hex(self.levels[0][0])  # .encode('hex')
+                return self._to_hex(self.levels[0][0])
             else:
                 return None
         else:
@@ -122,14 +120,14 @@ class MerkleTools(object):
                 is_right_node = index % 2
                 sibling_index = index - 1 if is_right_node else index + 1
                 sibling_pos = "left" if is_right_node else "right"
-                sibling_value = self._to_hex(self.levels[x][sibling_index])  # .encode('hex')
+                sibling_value = self._to_hex(self.levels[x][sibling_index])
                 proof.append({sibling_pos: sibling_value})
                 index = int(index / 2.)
             return proof
 
     def validate_proof(self, proof, target_hash, merkle_root):
-        merkle_root = bytearray.fromhex(merkle_root)  # merkle_root.decode('hex')
-        target_hash = bytearray.fromhex(target_hash)  # target_hash.decode('hex')
+        merkle_root = bytearray.fromhex(merkle_root)
+        target_hash = bytearray.fromhex(target_hash)
         if len(proof) == 0:
             return target_hash == merkle_root
         else:
@@ -137,10 +135,10 @@ class MerkleTools(object):
             for p in proof:
                 try:
                     # the sibling is a left node
-                    sibling = bytearray.fromhex(p['left'])  # p['left'].decode('hex')
+                    sibling = bytearray.fromhex(p['left'])
                     proof_hash = self.hash_function(sibling + proof_hash).digest()
                 except:
                     # the sibling is a right node
-                    sibling = bytearray.fromhex(p['right'])  # p['right'].decode('hex')
+                    sibling = bytearray.fromhex(p['right'])
                     proof_hash = self.hash_function(proof_hash + sibling).digest()
             return proof_hash == merkle_root
