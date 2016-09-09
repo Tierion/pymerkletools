@@ -43,7 +43,7 @@ class MerkleTools(object):
         if isinstance(values, tuple) or isinstance(values, list):
             for v in values:
                 if do_hash:
-                    v = self.hash_function(v).digest()
+                    v = self.hash_function(v.encode("utf-8")).digest()
                 else:
                     v = v.decode('hex')
                 self.leaves.append(v)

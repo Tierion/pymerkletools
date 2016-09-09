@@ -167,7 +167,7 @@ print mt.validate_proof(mt.get_proof(1), mt.get_leaf(1), mt.get_merkle_root())  
 ### Development
 This module uses Python's `hashlib` for hashing. Inside a `MerkleTools` object all
 hashes are stored in the default format as output by the method
-`.digest()`. This way hashes can be concatenated simply with `+` and the result
+`.digest()`. The format is `\x` escaped hexadecimal. This way hashes can be concatenated simply with `+` and the result
 used as input for the hash function. But for
 simplicity and easy to use `MerkleTools` methods expect that both input and outputs are hex
 strings. We can convert from one type to the other using default Python string methods.
