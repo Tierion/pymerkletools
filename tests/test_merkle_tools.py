@@ -2,7 +2,6 @@ import hashlib
 from math import sqrt
 from merkletools import MerkleTools
 
-
 def test_add_leaf():
     mt = MerkleTools()
     mt.add_leaf("tierion", do_hash=True)
@@ -36,7 +35,7 @@ def test_get_proof():
 def test_basics():
     bLeft = 'a292780cc748697cb499fdcc8cb89d835609f11e502281dfe3f6690b1cc23dcb'
     bRight = 'cb4990b9a8936bbc137ddeb6dcab4620897b099a450ecdc5f3e86ef4b3a7135c'
-    mRoot = hashlib.sha256(bLeft.decode('hex') + bRight.decode('hex')).hexdigest()
+    mRoot = hashlib.sha256(bytearray.fromhex(bLeft) + bytearray.fromhex(bRight)).hexdigest()
 
     # tree with no leaves
     mt = MerkleTools()
@@ -99,7 +98,7 @@ def test_unhashed_leaves():
 def test_md5_tree():
     bLeftmd5 = '0cc175b9c0f1b6a831c399e269772661'
     bRightmd5 = '92eb5ffee6ae2fec3ad71c777531578f'
-    mRootmd5 = hashlib.md5(bLeftmd5.decode('hex')+bRightmd5.decode('hex')).hexdigest()
+    mRootmd5 = hashlib.md5(bytearray.fromhex(bLeftmd5)+bytearray.fromhex(bRightmd5)).hexdigest()
 
     mt = MerkleTools('md5')
     mt.add_leaf([bLeftmd5, bRightmd5])
@@ -110,7 +109,7 @@ def test_md5_tree():
 def test_proof_nodes():
     bLeft = 'a292780cc748697cb499fdcc8cb89d835609f11e502281dfe3f6690b1cc23dcb'
     bRight = 'cb4990b9a8936bbc137ddeb6dcab4620897b099a450ecdc5f3e86ef4b3a7135c'
-    mRoot = hashlib.sha256(bLeft.decode('hex') + bRight.decode('hex')).hexdigest()
+    mRoot = hashlib.sha256(bytearray.fromhex(bLeft) + bytearray.fromhex(bRight)).hexdigest()
 
     mt = MerkleTools()
     mt.add_leaf(bLeft)
