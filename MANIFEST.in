@@ -1,2 +1,2 @@
 include *.py *.txt
-recursive-include tests *.py
+recursive-include tests *.py *.md
