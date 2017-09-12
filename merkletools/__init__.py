@@ -10,24 +10,9 @@ except:
 class MerkleTools(object):
     def __init__(self, hash_type="sha256"):
         hash_type = hash_type.lower()
-        if hash_type == 'sha256':
-            self.hash_function = hashlib.sha256
-        elif hash_type == 'md5':
-            self.hash_function = hashlib.md5
-        elif hash_type == 'sha224':
-            self.hash_function = hashlib.sha224
-        elif hash_type == 'sha384':
-            self.hash_function = hashlib.sha384
-        elif hash_type == 'sha512':
-            self.hash_function = hashlib.sha512
-        elif hash_type == 'sha3_256':
-            self.hash_function = hashlib.sha3_256
-        elif hash_type == 'sha3_224':
-            self.hash_function = hashlib.sha3_224
-        elif hash_type == 'sha3_384':
-            self.hash_function = hashlib.sha3_384
-        elif hash_type == 'sha3_512':
-            self.hash_function = hashlib.sha3_512
+        if hash_type in ['sha256', 'md5', 'sha224', 'sha384', 'sha512',
+                         'sha3_256', 'sha3_224', 'sha3_384', 'sha3_512']:
+            self.hash_function = getattr(hashlib, hash_type)
         else:
             raise Exception('`hash_type` {} nor supported'.format(hash_type))
 
