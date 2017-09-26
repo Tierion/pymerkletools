@@ -32,22 +32,13 @@ class MerkleTools(object):
     def add_leaf(self, values, do_hash=False):
         self.is_ready = False
         # check if single leaf
-        if isinstance(values, tuple) or isinstance(values, list):
-            for v in values:
-                if do_hash:
-                    v = v.encode('utf-8')
-                    v = self.hash_function(v).hexdigest()
-                    v = bytearray.fromhex(v)
-                else:
-                    v = bytearray.fromhex(v)
-                self.leaves.append(v)
-        else:
+        if not isinstance(values, tuple) and not isinstance(values, list):
+            values = [values]
+        for v in values:
             if do_hash:
-                v = values.encode("utf-8")
+                v = v.encode('utf-8')
                 v = self.hash_function(v).hexdigest()
-                v = bytearray.fromhex(v)
-            else:
-                v = bytearray.fromhex(values)
+            v = bytearray.fromhex(v)
             self.leaves.append(v)
 
     def get_leaf(self, index):
