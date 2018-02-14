@@ -5,12 +5,12 @@ from setuptools import setup
 
 here = os.path.abspath(os.path.dirname(__file__))
 install_requires = [
-    "pysha3==1.0b1"
+    "pysha3>=1.0b1"
 ]
 
 setup(
     name='merkletools',
-    version='1.0.2',
+    version='1.0.3',
     description='Merkle Tools',
     classifiers=[
         "Intended Audience :: Developers",
