@@ -14,7 +14,7 @@ pip install merkletools
 ### Create MerkleTools Object
 
 ```python
-import merkletools
+from merkletools import MerkleTools
 
 mt = MerkleTools(hash_type="md5")  # default is sha256 
 # valid hashTypes include all crypto hash algorithms
