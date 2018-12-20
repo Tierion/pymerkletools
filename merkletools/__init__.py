@@ -1,5 +1,6 @@
 import hashlib
 import binascii
+from functools import lru_cache
 try:
     import sha3
 except:
@@ -72,6 +73,7 @@ class MerkleTools(object):
                 self._calculate_next_level()
         self.is_ready = True
 
+    @lru_cache(maxsize=1024)
     def get_merkle_root(self):
         if self.is_ready:
             if self.levels is not None:
