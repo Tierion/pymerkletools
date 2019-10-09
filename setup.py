@@ -10,7 +10,7 @@ install_requires = [
 
 setup(
     name='merkletools',
-    version='1.0.3',
+    version='1.0.4',
     description='Merkle Tools',
     classifiers=[
         "Intended Audience :: Developers",
@@ -26,7 +26,7 @@ setup(
     author='Eder Santana',
     keywords='merkle tree, blockchain, tierion',
     license="MIT",
-    packages=find_packages(),
+    packages=find_packages(exclude=["tests"]),
     include_package_data=False,
     zip_safe=False,
     install_requires=install_requires
