@@ -5,7 +5,7 @@ from setuptools import setup
 
 here = os.path.abspath(os.path.dirname(__file__))
 install_requires = [
-    "pysha3>=1.0b1"
+    "pysha3>=1.0b1; python_version<\"3.6\""
 ]
 
 setup(
