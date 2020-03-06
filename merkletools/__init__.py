@@ -1,10 +1,14 @@
 import hashlib
 import binascii
-try:
-    import sha3
-except:
-    from warnings import warn
-    warn("sha3 is not working!")
+import sys
+
+
+if sys.version_info < (3, 6):
+    try:
+        import sha3
+    except:
+        from warnings import warn
+        warn("sha3 is not working!")
 
 
 class MerkleTools(object):
