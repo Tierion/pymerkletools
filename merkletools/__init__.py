@@ -107,9 +107,13 @@ class MerkleTools(object):
 
     def validate_proof(self, proof, target_hash, merkle_root):
         merkle_root = bytearray.fromhex(merkle_root)
+        proof_hash = self.generate_merkle_root_with_merkle_proof(proof, target_hash)
+        return proof_hash == merkle_root
+
+    def generate_merkle_root_with_merkle_proof(self, proof, target_hash):
         target_hash = bytearray.fromhex(target_hash)
         if len(proof) == 0:
-            return target_hash == merkle_root
+            return target_hash
         else:
             proof_hash = target_hash
             for p in proof:
@@ -121,4 +125,4 @@ class MerkleTools(object):
                     # the sibling is a right node
                     sibling = bytearray.fromhex(p['right'])
                     proof_hash = self.hash_function(proof_hash + sibling).digest()
-            return proof_hash == merkle_root
+            return proof_hash

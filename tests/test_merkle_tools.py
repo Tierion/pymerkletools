@@ -233,19 +233,6 @@ def test_sha3_224():
     assert is_valid == True
 
 
-def test_sha3_224():
-    mt = MerkleTools(hash_type='sha3_224')
-    mt.add_leaf([
-        '6ed712b9472b671fd70bb950dc4ccfce197c92a7969f6bc2aa6b6d9f',
-        '08db5633d406804d044a3e67683e179b5ee51249ed2139c239d1e65a'
-    ])
-    mt.make_tree()
-    assert mt.get_merkle_root() == '674bc9f53d5c666174cdd3ccb9df04768dfb7759655e7d937aef0c3a'
-    assert mt.get_proof(0)[0]['right'] == '08db5633d406804d044a3e67683e179b5ee51249ed2139c239d1e65a'
-    is_valid = mt.validate_proof(mt.get_proof(0), '6ed712b9472b671fd70bb950dc4ccfce197c92a7969f6bc2aa6b6d9f', '674bc9f53d5c666174cdd3ccb9df04768dfb7759655e7d937aef0c3a')
-    assert is_valid == True
-
-
 def test_sha3_256():
     mt = MerkleTools(hash_type='sha3_256')
     mt.add_leaf([
