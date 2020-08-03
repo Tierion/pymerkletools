@@ -12,6 +12,10 @@ if sys.version_info < (3, 6):
 
 
 class MerkleTools(object):
+    '''
+    hash types usable  [ sha256 , md5 , sha224 , sha384 , sha512,
+            sha3_256 , sha3_224 , sha3_384 , sha3_512 ]
+    '''
     def __init__(self, hash_type="sha256"):
         hash_type = hash_type.lower()
         if hash_type in ['sha256', 'md5', 'sha224', 'sha384', 'sha512',
@@ -70,7 +74,7 @@ class MerkleTools(object):
 
     def make_tree(self):
         self.is_ready = False
-        if self.get_leaf_count() > 0:
+        if len(self.leaves) > 0:
             self.levels = [self.leaves, ]
             while len(self.levels[0]) > 1:
                 self._calculate_next_level()
