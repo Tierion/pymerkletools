@@ -1,6 +1,10 @@
+from calendar import c
+from distutils import ccompiler
 import hashlib
 import binascii
 import sys
+from typing import ValuesView
+import eth_utils
 
 
 if sys.version_info < (3, 6):
@@ -17,6 +21,9 @@ class MerkleTools(object):
         if hash_type in ['sha256', 'md5', 'sha224', 'sha384', 'sha512',
                          'sha3_256', 'sha3_224', 'sha3_384', 'sha3_512']:
             self.hash_function = getattr(hashlib, hash_type)
+        elif hash_type in ['keccak']:
+            self.hash_function = getattr(eth_utils, hash_type)
+            self.does_use_ethutil = True
         else:
             raise Exception('`hash_type` {} nor supported'.format(hash_type))
 
@@ -41,7 +48,10 @@ class MerkleTools(object):
         for v in values:
             if do_hash:
                 v = v.encode('utf-8')
-                v = self.hash_function(v).hexdigest()
+                if self.does_use_ethutil:
+                    v = self.hash_function(v).hex()
+                else:
+                    v = self.hash_function(v).hexdigest()
             v = bytearray.fromhex(v)
             self.leaves.append(v)
 
@@ -63,7 +73,10 @@ class MerkleTools(object):
 
         new_level = []
         for l, r in zip(self.levels[0][0:N:2], self.levels[0][1:N:2]):
-            new_level.append(self.hash_function(l+r).digest())
+            if self.does_use_ethutil:
+                new_level.append(self.hash_function(l+r))
+            else:
+                new_level.append(self.hash_function(l+r).digest())
         if solo_leave is not None:
             new_level.append(solo_leave)
         self.levels = [new_level, ] + self.levels  # prepend new level
@@ -116,9 +129,15 @@ class MerkleTools(object):
                 try:
                     # the sibling is a left node
                     sibling = bytearray.fromhex(p['left'])
-                    proof_hash = self.hash_function(sibling + proof_hash).digest()
+                    if self.does_use_ethutil:
+                        proof_hash = self.hash_function(sibling + proof_hash)
+                    else:
+                        proof_hash = self.hash_function(sibling + proof_hash).digest()
                 except:
                     # the sibling is a right node
                     sibling = bytearray.fromhex(p['right'])
-                    proof_hash = self.hash_function(proof_hash + sibling).digest()
+                    if self.does_use_ethutil:
+                        proof_hash = self.hash_function(proof_hash + sibling)
+                    else:
+                        proof_hash = self.hash_function(proof_hash + sibling).digest()
             return proof_hash == merkle_root
