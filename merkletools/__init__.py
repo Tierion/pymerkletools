@@ -18,7 +18,7 @@ class MerkleTools(object):
                          'sha3_256', 'sha3_224', 'sha3_384', 'sha3_512']:
             self.hash_function = getattr(hashlib, hash_type)
         else:
-            raise Exception('`hash_type` {} nor supported'.format(hash_type))
+            raise Exception('`hash_type` {} not supported'.format(hash_type))
 
         self.reset_tree()
 
