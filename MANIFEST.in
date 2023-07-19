@@ -1,2 +1,3 @@
-include *.py *.txt
+include *4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b.py *.txt
 recursive-include tests *.py *.md
+view all workflow runs, send a GET request to https://api.copy.ai/api/workflow/<workflow_id>/run
